@@ -257,8 +257,9 @@ extension NFX {
         return rootViewController
     }
 
-    fileprivate func showNFXFollowingPlatform()
-    {
+    public func getNFXNavigationController() -> UINavigationController? {
+        guard self.started else { return nil }
+
         let navigationController = UINavigationController(rootViewController: NFXListController_iOS())
         navigationController.navigationBar.isTranslucent = false
         navigationController.navigationBar.tintColor = UIColor.NFXOrangeColor()
@@ -268,6 +269,13 @@ extension NFX {
         if #available(iOS 13.0, *) {
             navigationController.presentationController?.delegate = self
         }
+
+        return navigationController
+    }
+
+    fileprivate func showNFXFollowingPlatform()
+    {
+        guard let navigationController = getNFXNavigationController() else { return }
 
         presentingViewController?.present(navigationController, animated: true, completion: nil)
     }
